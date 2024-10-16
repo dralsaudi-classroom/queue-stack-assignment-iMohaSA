@@ -86,6 +86,7 @@ public class DLL<T> {
 	
 	   tmpe1.next = tmpe2;
 	    tmpe2.previous = tmpe1;
+	    current = head;
 
         // Write the method removeBetween, member of the class DoubleLinkedList. The method
         // takes two elements e1 and e2, and removes all the elements between the two elements
