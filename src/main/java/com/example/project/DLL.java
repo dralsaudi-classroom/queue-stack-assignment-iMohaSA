@@ -83,10 +83,18 @@ public class DLL<T> {
 	    if (tmpe2 == null) {
 	        return;
 	    }
-	
+	    
+	    Node<T> runner = tmpe1.next;
+	    while (runner != tmpe2) {
+	        Node<T> runnerNext = runner.next;
+	        runner.previous = null; 
+	        runner.next = null; 
+	        runner = runnerNext;
+	    }
+	   
 	   tmpe1.next = tmpe2;
-	    tmpe2.previous = tmpe1;
-	    current = head;
+	   tmpe2.previous = tmpe1;
+	   current = head;
 
         // Write the method removeBetween, member of the class DoubleLinkedList. The method
         // takes two elements e1 and e2, and removes all the elements between the two elements
