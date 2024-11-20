@@ -71,16 +71,14 @@ public class DLL<T> {
 	        tmpe1 = tmpe1.next;
 	    }
 	    
-	    if (tmpe1 == null)
-	        return;
+	    if (tmpe1 == null || tmpe1.next == null) return;
 	    
 	    DLLNode<T> tmpe2 = tmpe1.next;
 	    while (tmpe2 != null && !tmpe2.data.equals(e2)) {
 	        tmpe2 = tmpe2.next;
 	    }
 	    
-	    if (tmpe2 == null)
-	        return;
+	    if (tmpe2 == null) return;
 	    
 	    tmpe1.next = tmpe2;
 	    tmpe2.previous = tmpe1;
