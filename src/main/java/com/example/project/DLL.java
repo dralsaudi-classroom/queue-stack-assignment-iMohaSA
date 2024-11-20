@@ -64,45 +64,26 @@ public class DLL<T> {
         else
             current = current.next;
     }
-    public void removeBetween(T e1, T e2) {
-	    Node<T> tmpe1 = head;
-	    Node<T> tmpe2;
-	
+	public void removeBetween(T e1, T e2) {
+	    DLLNode<T> tmpe1 = head;
+	    
 	    while (tmpe1 != null && !tmpe1.data.equals(e1)) {
 	        tmpe1 = tmpe1.next;
 	    }
-	    if(tmpe1 == null)
-		    return;
+	    if (tmpe1 == null || tmpe1.next == null)
+	        return;
 	    
-	    tmpe2 = tmpe1.next;
-	
+	    DLLNode<T> tmpe2 = tmpe1.next;
 	    while (tmpe2 != null && !tmpe2.data.equals(e2)) {
 	        tmpe2 = tmpe2.next;
 	    }
-	
-	    if (tmpe2 == null) {
-	        return;
-	    }
 	    
-	    Node<T> runner = tmpe1.next;
-	    while (runner != tmpe2) {
-	        Node<T> runnerNext = runner.next;
-	        runner.previous = null; 
-	        runner.next = null; 
-	        runner = runnerNext;
-	    }
-	   
-	   tmpe1.next = tmpe2;
-	   tmpe2.previous = tmpe1;
-	   current = head;
-
-        // Write the method removeBetween, member of the class DoubleLinkedList. The method
-        // takes two elements e1 and e2, and removes all the elements between the two elements
-        // (e1 and e2 not included). If e1 or e2 or both doesn’t exist, no element will be removed. You can assume the elements to be unique, e1 comes before e2, and that
-        // e1 ̸= e2. Current is moved to head if the removal is successful. Do not call any
-        // methods and do not use any auxiliary data structures. The method signature
-        // is: public void removeBetween(T e1, T e2).
-        // Example 3.1. Given the list: A ↔ B ↔ C ↔ D ↔ E ↔ F, removeBetween(’B’,
-        // ’E’) results in: A ↔ B ↔ E ↔ F.
-    }
+	    if (tmpe2 == null)
+	        return;
+	    
+	    tmpe1.next = tmpe2;
+	    tmpe2.previous = tmpe1;
+	    
+	    current = head;
+	}
 }
