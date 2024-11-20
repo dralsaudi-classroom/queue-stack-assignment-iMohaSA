@@ -64,13 +64,14 @@ public class DLL<T> {
         else
             current = current.next;
     }
+	
 	public void removeBetween(T e1, T e2) {
 	    DLLNode<T> tmpe1 = head;
-	    
 	    while (tmpe1 != null && !tmpe1.data.equals(e1)) {
 	        tmpe1 = tmpe1.next;
 	    }
-	    if (tmpe1 == null || tmpe1.next == null)
+	    
+	    if (tmpe1 == null)
 	        return;
 	    
 	    DLLNode<T> tmpe2 = tmpe1.next;
