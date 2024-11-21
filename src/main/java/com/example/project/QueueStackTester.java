@@ -22,40 +22,45 @@ public class QueueStackTester {
     }
 }
 
-  public static <T> void remove(LinkedPQ<T> pq, int p) {
-    LinkedPQ<T> tmp = new LinkedPQ<>();
-    int len = pq.length();
 
-    for (int i = 0; i < len; i++) {
-        PQElement<T> element = pq.serve();
-        int priority = element.getPriority();
-        
-        if (priority >= p) {
-            tmp.enqueue(element.getItem(), priority);
+public static <T> void remove(LinkedPQ<T> pq, int p) {
+        LinkedPQ<T> tmp = new LinkedPQ<>(); // Temporary queue to hold items with priority >= p
+
+        // Process all elements in the input priority queue
+        while (pq.length() > 0) {
+            PQElement<T> element = pq.serve(); // Retrieve the element with the highest priority
+            if (element.p >= p) {             // Check if the priority meets the threshold
+                tmp.enqueue(element.data, element.p); // Keep elements with priority >= p
+            }
+        }
+
+        // Rebuild the original priority queue from the temporary queue
+        while (tmp.length() > 0) {
+            PQElement<T> element = tmp.serve(); // Retrieve the next element from tmp
+            pq.enqueue(element.data, element.p); // Reinsert into the original queue
         }
     }
 
-    while (tmp.length() > 0) {
-        PQElement<T> element = tmp.serve();
-        pq.enqueue(element.getItem(), element.getPriority());
+
+    public static <T> boolean search(LinkedPQ<T> pq, T e) {
+        LinkedPQ<T> temp = new LinkedPQ<>(); // Temporary queue to hold elements during the search
+        boolean found = false;
+
+        // Traverse the priority queue
+        while (pq.length() > 0) {
+            PQElement<T> element = pq.serve(); // Retrieve the top element
+            if (element.data.equals(e)) {
+                found = true; // Element found
+            }
+            temp.enqueue(element.data, element.p); // Save the element in the temp queue
+        }
+
+        // Restore the original priority queue
+        while (temp.length() > 0) {
+            PQElement<T> element = temp.serve();
+            pq.enqueue(element.data, element.p);
+        }
+
+        return found;
     }
-}
-
-  public static <T> boolean search(LinkedPQ<T> st, T e) {
-    if (st.length() == 0) {
-        return false;
-    }
-
-    T top = st.serve();
-
-    if (top.equals(e)) {
-        st.enqueue(top, 0);
-        return true;
-    }
-
-    boolean found = search(st, e);
-
-    st.enqueue(top, 0);
-
-    return found;
 }
