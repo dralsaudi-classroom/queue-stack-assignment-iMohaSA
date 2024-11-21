@@ -1,66 +1,69 @@
 package com.example.project;
 
 public class QueueStackTester {
+
     public static <T> void split(Queue<T> q, Queue<T> oq, Queue<T> eq) {
-    if (q.length() == 0) {
-        return;
+        int count = q.length();
+        recSplit(q, oq, eq, count, 1);
     }
 
-    T e1 = q.serve();
-    oq.enqueue(e1);
+    private static <T> void recSplit(Queue<T> q, Queue<T> oq, Queue<T> eq, int count, int pos) {
+        if (pos > count) {
+            return;
+        }
+        T element = q.serve();
 
-    if (q.length() > 0) {
-        T e2 = q.serve();
-        eq.enqueue(e2);
+        q.enqueue(element);
+
+
+        if (pos % 2 == 1) {
+            oq.enqueue(element);
+        } else {
+            eq.enqueue(element);
+        }
+
+
+        recSplit(q, oq, eq, count, pos + 1);
     }
 
-    split(q, oq, eq);
 
-    oq.enqueue(e1);
-    if (q.length() > 0) {
-        eq.enqueue(q.serve());
-    }
-}
+    public static <T> void remove(LinkedPQ<T> pq, int p) {
+        LinkedPQ<T> tempPQ = new LinkedPQ<T>();
+        int count = pq.length();
 
 
-public static <T> void remove(LinkedPQ<T> pq, int p) {
-        LinkedPQ<T> tmp = new LinkedPQ<>(); // Temporary queue to hold items with priority >= p
+        for (int i = 0; i < count; i++) {
+            PQElement<T> element = pq.serve();
 
-        // Process all elements in the input priority queue
-        while (pq.length() > 0) {
-            PQElement<T> element = pq.serve(); // Retrieve the element with the highest priority
-            if (element.p >= p) {             // Check if the priority meets the threshold
-                tmp.enqueue(element.data, element.p); // Keep elements with priority >= p
+
+            if (element.p >= p) {
+                tempPQ.enqueue(element.data, element.p);
             }
         }
 
-        // Rebuild the original priority queue from the temporary queue
-        while (tmp.length() > 0) {
-            PQElement<T> element = tmp.serve(); // Retrieve the next element from tmp
-            pq.enqueue(element.data, element.p); // Reinsert into the original queue
-        }
-    }
 
-
-    public static <T> boolean search(LinkedPQ<T> pq, T e) {
-        LinkedPQ<T> temp = new LinkedPQ<>(); // Temporary queue to hold elements during the search
-        boolean found = false;
-
-        // Traverse the priority queue
-        while (pq.length() > 0) {
-            PQElement<T> element = pq.serve(); // Retrieve the top element
-            if (element.data.equals(e)) {
-                found = true; // Element found
-            }
-            temp.enqueue(element.data, element.p); // Save the element in the temp queue
-        }
-
-        // Restore the original priority queue
-        while (temp.length() > 0) {
-            PQElement<T> element = temp.serve();
+        count = tempPQ.length();
+        for (int i = 0; i < count; i++) {
+            PQElement<T> element = tempPQ.serve();
             pq.enqueue(element.data, element.p);
         }
+    }
 
+
+
+
+
+    public static <T> boolean search(Stack<T> st, T e) {
+        if (st.empty()) return false;
+
+        T element = st.pop();
+        if (element.equals(e)) {
+            st.push(element);
+            return true;
+        }
+
+        boolean found = search(st, e);
+        st.push(element);
         return found;
     }
 }
